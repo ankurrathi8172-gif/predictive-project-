@@ -59,7 +59,7 @@ fig.update_layout(height=430, xaxis_title="Time", yaxis_title="Occupancy level",
 st.plotly_chart(fig, width="stretch")
 
 st.subheader("Model Performance")
-st.table(metrics, use_container_width=True)
+st.dataframe(metrics, use_container_width=True)
 if "RMSE" in metrics.columns:
     fig = px.bar(metrics, x="Model", y="RMSE", title="RMSE comparison (lower is better)", text_auto=".3f")
     st.plotly_chart(fig, width="stretch")
@@ -74,11 +74,11 @@ st.plotly_chart(fig, width="stretch")
 st.subheader("Next 6-Hour Forecast")
 fig = px.line(forecast, x="timestamp", y="forecast", markers=True, labels={"timestamp":"Future time", "forecast":"Predicted occupancy level"})
 st.plotly_chart(fig, width="stretch")
-st.table(forecast, use_container_width=True)
+st.dataframe(forecast, use_container_width=True)
 
 with st.expander("View selected continuous dataset"):
-    st.table(history, use_container_width=True)
+    st.dataframe(history, use_container_width=True)
 with st.expander("View test predictions"):
-    st.table(pred, use_container_width=True)
+    st.dataframe(pred, use_container_width=True)
 
 st.caption("Academic prototype using UCI experimental-room sensor data. Not a campus deployment or safety-capacity system.")
