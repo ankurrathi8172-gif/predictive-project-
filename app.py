@@ -47,7 +47,7 @@ st.subheader("Observed Occupancy History")
 st.caption("Only the longest continuous source-data segment is shown. No interpolation across long gaps.")
 fig = px.line(history, x="timestamp", y="occupancy", labels={"timestamp":"Time", "occupancy":"Occupancy level"})
 fig.update_layout(height=400)
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 
 st.subheader("Actual vs Predicted Occupancy")
 fig = go.Figure()
@@ -56,24 +56,24 @@ for col in ["SARIMA", "ARIMA", "Seasonal Naive"]:
     if col in pred.columns:
         fig.add_trace(go.Scatter(x=pred.timestamp, y=pred[col], name=col, mode="lines"))
 fig.update_layout(height=430, xaxis_title="Time", yaxis_title="Occupancy level", hovermode="x unified")
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 
 st.subheader("Model Performance")
 st.table(metrics, use_container_width=True)
 if "RMSE" in metrics.columns:
     fig = px.bar(metrics, x="Model", y="RMSE", title="RMSE comparison (lower is better)", text_auto=".3f")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 st.subheader("Average Occupancy by Hour")
 history["hour"] = history.timestamp.dt.hour
 profile = history.groupby("hour", as_index=False)["occupancy"].mean()
 fig = px.bar(profile, x="hour", y="occupancy", labels={"hour":"Hour of day", "occupancy":"Average occupancy level"})
 fig.update_xaxes(dtick=1)
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 
 st.subheader("Next 6-Hour Forecast")
 fig = px.line(forecast, x="timestamp", y="forecast", markers=True, labels={"timestamp":"Future time", "forecast":"Predicted occupancy level"})
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 st.table(forecast, use_container_width=True)
 
 with st.expander("View selected continuous dataset"):
